@@ -36,7 +36,30 @@ image_annotate(ave, "Augastes lumachella \n Beija-flor-de-gravata-vermelha",
                gravity = "southwest",
                color = "black")
 
-## Adicionando borda e plano de fundo
+## Adicionando camadas
 
-image_background(ave, "blue", flatten = TRUE)
-test <- image_border(test, "red", "10x10")
+ave1 <- image_read('https://img.quizur.com/f/img60ef43d755c403.83486189.jpg?lastEdited=1626293220')
+ave2 <- image_read('https://s3.amazonaws.com/media.wikiaves.com.br/images/7603/3067512_2fde4f403581aec9116a4149ac9a57be.jpg')
+
+img <- c(ave1, ave2)
+img <- image_scale(img, "200x200")
+
+image_info(img)
+
+image_mosaic(img)
+
+image_flatten(img)
+
+image_append(image_scale(img, "100"), stack = TRUE)
+
+## Animation
+
+img1 <- c(ave, ave1, ave2)
+
+image_animate(image_scale(img1, "200x200"),
+              fps = 1, dispose = "previous")
+
+image_resize(c(ave, ave1, ave2), '200x150!') %>%
+  image_background('white') %>%
+  image_morph() %>%
+  image_animate(optimize = TRUE)
